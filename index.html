@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>bubbly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      background-image: url('background.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      font-family: sans-serif;
+      height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body.start-page-active {
+      opacity: 0.3;
+    }
+
+    .start-page {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .title {
+      font-family: 'Coiny', system-ui;
+      font-size: 8vw;
+      color: thistle;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px thistle;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .start-button {
+      background-color: #e493b3;
+      color: #fff;
+      font-family: 'Coiny', system-ui;
+      font-size: 4vw;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.2s, transform 0.2s;
+      animation: pulse 1s ease-in-out infinite alternate;
+      z-index: 2;
+    }
+
+    .start-button:hover {
+      background-color: #f7b5d6;
+      transform: scale(1.05);
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+    }
+
+    .chatroom-container {
+      width: 100%;
+      max-width: 1000px;
+      height: 100vh;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-area {
+      flex: 1;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .message-bubble {
+      padding: 20px 15px;
+      font-size: 16px;
+      line-height: 0.5;
+      border-radius: 18px;
+      margin-bottom: 10px;
+      word-break: break-word;
+      min-width: 200px;
+      max-width: 80%;
+    }
+
+    .sender {
+      position: relative;
+      background-color: #eef1ff;
+      align-self: flex-end;
+      font-family: 'Coiny', system-ui;
+      color: #c599b6;
+      border-radius: 25px;
+      padding: 10px 24px 6px 24px;
+      max-width: 70%;
+      margin-bottom: 12px;
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .sender::after {
+      content: "";
+      position: absolute;
+      right: -8px;
+      top: 12px;
+      width: 12px;
+      height: 12px;
+      background: #eef1ff;
+      border-radius: 50%;
+      clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    }
+
+    .receiver {
+      position: relative;
+      background-color: #fef9f2;
+      align-self: flex-start;
+      font-family: 'Coiny', system-ui;
+      color: #c8aaaa;
+      border-radius: 25px;
+      padding: 10px 24px 6px 24px;
+      max-width: 70%;
+      margin-bottom: 12px;
+      line-height: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .receiver::after {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 12px;
+      width: 12px;
+      height: 12px;
+      background: #fef9f2;
+      border-radius: 50%;
+      clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
+    }
+
+    .sender-name {
+      font-size: 0.8em;
+      color: #eac7c7;
+      margin-bottom: 3px;
+      display: block;
+    }
+
+    .receiver-name {
+      font-size: 0.8em;
+      color: #574964;
+      margin-bottom: 3px;
+      display: block;
+    }
+
+    .message-bubble p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      flex-shrink: 0;
+    }
+
+    .message-input {
+      background-color: #ffe3e3;
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ffe3e3;
+      border-radius: 50px;
+      margin-right: 10px;
+      font-family: 'Coiny', system-ui;
+      font-size: 20px;
+      color: #789dbc;
+    }
+
+    .message-input::placeholder {
+      color: #789dbc;
+      font-size: 20px;
+    }
+
+    .message-input:focus {
+      outline: 2px solid #eed3d9;
+    }
+
+    .send-button {
+      background-color: #e493b3;
+      color: #fbf3b9;
+      font-family: 'Coiny', system-ui;
+      font-size: 20px;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50px;
+      cursor: pointer;
+    }
+
+    .send-button:hover {
+      background-color: pink;
+    }
+
+    @media (max-width: 600px) {
+      .title {
+        font-size: 12vw;
+      }
+
+      .start-button {
+        font-size: 5vw;
+        padding: 12px 24px;
+      }
+
+      .message-input {
+        font-size: 16px;
+        padding: 8px;
+      }
+
+      .send-button {
+        font-size: 16px;
+        padding: 8px 12px;
+      }
+
+      .chatroom-container {
+        padding: 10px;
+        height: calc(100vh - 60px);
+      }
+
+      .chat-area {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="startPage" class="start-page">
+    <h1 class="title">💭 welcome to bubbly</h1>
+    <button id="startButton" class="start-button">start chat</button>
+  </div>
+
+  <audio id="clickSound" src="click-sound.wav" preload="auto"></audio>
+  <audio id="typingSound" src="typing-sound.wav" preload="auto"></audio>
+  <audio id="sendClickSound" src="sendclick-sound.wav" preload="auto"></audio>
+  <audio id="replySound" src="reply-sound.wav" preload="auto"></audio>
+
+  <div class="chatroom-container">
+    <div class="chat-area" id="chatArea"></div>
+    <div class="input-area">
+      <input type="text" id="messageInput" class="message-input" placeholder="type your message..." />
+      <button id="sendButton" class="send-button">send</button>
+    </div>
+  </div>
+
+  <script>
+    // Elements
+    const chatArea = document.getElementById('chatArea');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const clickSound = document.getElementById('clickSound');
+    const typingSound = document.getElementById('typingSound');
+    const sendClickSound = document.getElementById('sendClickSound');
+    const replySound = document.getElementById('replySound');
+
+    const myName = "itsbeuina";
+    const otherUserName = "bestie";
+
+    sendButton.addEventListener('click', () => {
+      sendClickSound.currentTime = 0;
+      sendClickSound.play();
+      sendMessage();
+    });
+
+    messageInput.addEventListener('input', () => {
+      if (messageInput.value.trim() !== "") {
+        typingSound.currentTime = 0;
+        typingSound.play();
+      }
+    });
+
+    function sendMessage() {
+      const messageText = messageInput.value.trim();
+      if (messageText !== "") {
+        appendMessage(myName, messageText, 'sender');
+        messageInput.value = "";
+
+        setTimeout(() => {
+          const receivedMessage = generateReply();
+          replySound.currentTime = 0;
+          replySound.play();
+          appendMessage(otherUserName, receivedMessage, 'receiver');
+        }, 1000);
+      }
+    }
+
+    function appendMessage(senderName, message, type) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message-bubble', type);
+
+      const nameSpan = document.createElement('span');
+      nameSpan.classList.add(type + '-name');
+      nameSpan.textContent = senderName;
+
+      const textParagraph = document.createElement('p');
+      textParagraph.textContent = message;
+
+      messageDiv.appendChild(nameSpan);
+      messageDiv.appendChild(textParagraph);
+      chatArea.appendChild(messageDiv);
+
+      const messages = chatArea.getElementsByClassName('message-bubble');
+      if (messages.length > 6) {
+        chatArea.removeChild(messages[0]);
+      }
+    }
+
+    function generateReply() {
+      const replies = [
+        "hello!",
+        "how are you doing?",
+        "that's interesting.",
+        "okay, got it~",
+        "nice to hear that.",
+        "what's up?",
+      ];
+      return replies[Math.floor(Math.random() * replies.length)];
+    }
+
+    // Event Listener untuk Tombol Mulai Chat
+    const startPage = document.getElementById('startPage');
+    const chatContainer = document.querySelector('.chatroom-container');
+    const startButton = document.getElementById('startButton');
+
+    startButton.addEventListener('click', () => {
+      clickSound.play(); 
+      startPage.style.display = 'none';
+      chatContainer.style.display = 'flex';
+    });
+  </script>
+</body>
+</html>
