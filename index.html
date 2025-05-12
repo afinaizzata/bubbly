@@ -7,14 +7,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet"/>
   <style>
     body {
-      background-image: url('background.png');
+      background-image: url("/Users/mac/Downloads/My Game Projects/HTMLCSSJS/Bubbly/background.png");
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
       margin: 0;
       font-family: sans-serif;
       height: 100vh;
-      overflow-x: hidden;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -31,12 +31,12 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      z-index: 1;
+      z-index: 10;
     }
 
     .title {
       font-family: 'Coiny', system-ui;
-      font-size: 8vw;
+      font-size: 100px;
       color: thistle;
       margin-bottom: 40px;
       text-shadow: 2px 2px thistle;
@@ -58,15 +58,14 @@
       background-color: #e493b3;
       color: #fff;
       font-family: 'Coiny', system-ui;
-      font-size: 4vw;
+      font-size: 24px;
       padding: 15px 30px;
       border: none;
       border-radius: 999px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       transition: background 0.2s, transform 0.2s;
-      animation: pulse 1s ease-in-out infinite alternate;
-      z-index: 2;
+      animation: pulse 1s ease-in-out infinite alternate; 
     }
 
     .start-button:hover {
@@ -80,14 +79,13 @@
         opacity: 1;
       }
       to {
-        transform: scale(1.1);
-        opacity: 0.8;
-      }
+        transform: scale(1.1); 
+        opacity: 0.8;      
     }
 
     .chatroom-container {
-      width: 100%;
-      max-width: 1000px;
+      width: 1000px;
+      max-width: 90%;
       height: 100vh;
       display: none;
       flex-direction: column;
@@ -168,7 +166,7 @@
       background: #fef9f2;
       border-radius: 50%;
       clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
-    }
+}
 
     .sender-name {
       font-size: 0.8em;
@@ -230,37 +228,45 @@
     .send-button:hover {
       background-color: pink;
     }
+  
+@media (max-width: 768px) {
+  .title {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
 
-    @media (max-width: 600px) {
-      .title {
-        font-size: 12vw;
-      }
+  .start-button {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
 
-      .start-button {
-        font-size: 5vw;
-        padding: 12px 24px;
-      }
+  .chatroom-container {
+    width: 100vw;
+    height: 100vh;
+  }
 
-      .message-input {
-        font-size: 16px;
-        padding: 8px;
-      }
+  .message-bubble {
+    font-size: 14px;
+    padding: 10px;
+    max-width: 90%;
+  }
 
-      .send-button {
-        font-size: 16px;
-        padding: 8px 12px;
-      }
+  .sender, .receiver {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 
-      .chatroom-container {
-        padding: 10px;
-        height: calc(100vh - 60px);
-      }
+  .message-input {
+    font-size: 16px;
+  }
 
-      .chat-area {
-        padding: 10px;
-      }
-    }
-  </style>
+  .send-button {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+}
+
+</style>
 </head>
 <body>
   <div id="startPage" class="start-page">
@@ -268,10 +274,10 @@
     <button id="startButton" class="start-button">start chat</button>
   </div>
 
-  <audio id="clickSound" src="click-sound.wav" preload="auto"></audio>
-  <audio id="typingSound" src="typing-sound.wav" preload="auto"></audio>
-  <audio id="sendClickSound" src="sendclick-sound.wav" preload="auto"></audio>
-  <audio id="replySound" src="reply-sound.wav" preload="auto"></audio>
+   <audio id="clickSound" src="click-sound.wav" preload="auto"></audio>
+   <audio id="typingSound" src="typing-sound.wav" preload="auto"></audio>
+   <audio id="sendClickSound" src="sendclick-sound.wav" preload="auto"></audio>
+   <audio id="replySound" src="reply-sound.wav" preload="auto"></audio>
 
   <div class="chatroom-container">
     <div class="chat-area" id="chatArea"></div>
@@ -282,7 +288,6 @@
   </div>
 
   <script>
-    // Elements
     const chatArea = document.getElementById('chatArea');
     const messageInput = document.getElementById('messageInput');
     const sendButton = document.getElementById('sendButton');
@@ -355,7 +360,6 @@
       return replies[Math.floor(Math.random() * replies.length)];
     }
 
-    // Event Listener untuk Tombol Mulai Chat
     const startPage = document.getElementById('startPage');
     const chatContainer = document.querySelector('.chatroom-container');
     const startButton = document.getElementById('startButton');
