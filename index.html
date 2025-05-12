@@ -18,6 +18,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      max-width: 100vw;
+      max-height: 100vh;
     }
 
     body.start-page-active {
@@ -65,7 +67,7 @@
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       transition: background 0.2s, transform 0.2s;
-      animation: pulse 1s ease-in-out infinite alternate; 
+      animation: pulse 1s ease-in-out infinite alternate;
     }
 
     .start-button:hover {
@@ -79,8 +81,9 @@
         opacity: 1;
       }
       to {
-        transform: scale(1.1); 
-        opacity: 0.8;      
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
     }
 
     .chatroom-container {
@@ -98,7 +101,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     .message-bubble {
@@ -166,7 +169,7 @@
       background: #fef9f2;
       border-radius: 50%;
       clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
-}
+    }
 
     .sender-name {
       font-size: 0.8em;
@@ -228,45 +231,45 @@
     .send-button:hover {
       background-color: pink;
     }
-  
-@media (max-width: 768px) {
-  .title {
-    font-size: 48px;
-    margin-bottom: 20px;
-  }
 
-  .start-button {
-    font-size: 18px;
-    padding: 10px 20px;
-  }
+    /* Tambahan untuk responsif di perangkat mobile */
+    @media (max-width: 768px) {
+      .title {
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
 
-  .chatroom-container {
-    width: 100vw;
-    height: 100vh;
-  }
+      .start-button {
+        font-size: 18px;
+        padding: 10px 20px;
+      }
 
-  .message-bubble {
-    font-size: 14px;
-    padding: 10px;
-    max-width: 90%;
-  }
+      .chatroom-container {
+        width: 100vw;
+        height: 100vh;
+      }
 
-  .sender, .receiver {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
+      .message-bubble {
+        font-size: 14px;
+        padding: 10px;
+        max-width: 90%;
+      }
 
-  .message-input {
-    font-size: 16px;
-  }
+      .sender, .receiver {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
 
-  .send-button {
-    font-size: 16px;
-    padding: 8px 12px;
-  }
-}
+      .message-input {
+        font-size: 16px;
+      }
 
-</style>
+      .send-button {
+        font-size: 16px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div id="startPage" class="start-page">
@@ -274,10 +277,10 @@
     <button id="startButton" class="start-button">start chat</button>
   </div>
 
-   <audio id="clickSound" src="click-sound.wav" preload="auto"></audio>
-   <audio id="typingSound" src="typing-sound.wav" preload="auto"></audio>
-   <audio id="sendClickSound" src="sendclick-sound.wav" preload="auto"></audio>
-   <audio id="replySound" src="reply-sound.wav" preload="auto"></audio>
+  <audio id="clickSound" src="click-sound.wav" preload="auto"></audio>
+  <audio id="typingSound" src="typing-sound.wav" preload="auto"></audio>
+  <audio id="sendClickSound" src="sendclick-sound.wav" preload="auto"></audio>
+  <audio id="replySound" src="reply-sound.wav" preload="auto"></audio>
 
   <div class="chatroom-container">
     <div class="chat-area" id="chatArea"></div>
